@@ -22,7 +22,7 @@
 								_class = "BodyGroupChoice"
 								meshes = 
 								[
-									"ar4_mag",
+									"Magazine",
 								]
 							},
 						]
