@@ -1,0 +1,130 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:modeldoc29:version{3cec427c-1b0e-4d48-a90a-0436f33a6041} -->
+{
+	rootNode = 
+	{
+		_class = "RootNode"
+		children = 
+		[
+			{
+				_class = "BodyGroupList"
+				children = 
+				[
+					{
+						_class = "BodyGroup"
+						name = "mag"
+						children = 
+						[
+							{
+								_class = "BodyGroupChoice"
+								meshes = [  ]
+							},
+							{
+								_class = "BodyGroupChoice"
+								meshes = 
+								[
+									"ar4_mag",
+								]
+							},
+						]
+						hidden_in_tools = false
+					},
+				]
+			},
+			{
+				_class = "MaterialGroupList"
+				children = 
+				[
+					{
+						_class = "DefaultMaterialGroup"
+						remaps = 
+						[
+							{
+								from = "m_ar4.vmat"
+								to = "materials/weapons/ar4/ar4.vmat"
+							},
+							{
+								from = "m_762x39_empty.vmat"
+								to = "materials/weapons/ar4/ar4.vmat"
+							},
+						]
+						use_global_default = false
+						global_default_material = ""
+					},
+				]
+			},
+			{
+				_class = "AttachmentList"
+				children = 
+				[
+					{
+						_class = "Attachment"
+						name = "hold_point"
+						parent_bone = ""
+						relative_origin = [ 0.0, 0.0, 0.0 ]
+						relative_angles = [ 0.0, 0.0, 0.0 ]
+						weight = 1.0
+						ignore_rotation = false
+					},
+					{
+						_class = "Attachment"
+						name = "mag_point"
+						parent_bone = "b_gun_mag"
+						relative_origin = [ 0.0, 0.0, 0.0 ]
+						relative_angles = [ 0.0, 0.0, 0.0 ]
+						weight = 1.0
+						ignore_rotation = false
+					},
+				]
+			},
+			{
+				_class = "RenderMeshList"
+				children = 
+				[
+					{
+						_class = "RenderMeshFile"
+						name = "Weapon"
+						filename = "source_assets/ar4.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 0.0, 0.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = ""
+						import_filter = 
+						{
+							exclude_by_default = true
+							exception_list = 
+							[
+								"SK_AR4_X",
+							]
+						}
+					},
+					{
+						_class = "RenderMeshFile"
+						name = "Magazine"
+						filename = "source_assets/ar4_mag.FBX"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 180.0, 0.0, -90.0 ]
+						import_scale = 1.0
+						align_origin_x_type = "None"
+						align_origin_y_type = "None"
+						align_origin_z_type = "None"
+						parent_bone = "b_gun_mag"
+						import_filter = 
+						{
+							exclude_by_default = false
+							exception_list = 
+							[
+								"UCX_SM_AR4_Mag",
+							]
+						}
+					},
+				]
+			},
+		]
+		model_archetype = ""
+		primary_associated_entity = ""
+		anim_graph_name = ""
+	}
+}

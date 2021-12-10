@@ -1,0 +1,51 @@
+// THIS FILE IS AUTO-GENERATED
+
+Layer0
+{
+	shader "complex.vfx"
+
+	//---- Color ----
+	F_TINT_MASK 1
+
+	//---- PBR ----
+	F_ANISOTROPIC_GLOSS 1
+	F_SPECULAR 1
+	F_SPECULAR_CUBE_MAP_ANISOTROPIC_WARP 1
+
+	//---- Ambient Occlusion ----
+	g_flAmbientOcclusionDirectDiffuse "0.000"
+	g_flAmbientOcclusionDirectSpecular "0.000"
+	TextureAmbientOcclusion "materials/default/default_ao.tga"
+
+	//---- Color ----
+	g_flModelTintAmount "1.000"
+	g_vColorTint "[0.996078 0.835294 0.717647 1.000000]"
+	TextureColor "source_assets/T_AR4_albedo.TGA"
+	TextureTintMask "source_assets/T_AR4_M_metal.TGA"
+
+	//---- Fade ----
+	g_flFadeExponent "1.000"
+
+	//---- Fog ----
+	g_bFogEnabled "1"
+
+	//---- Lighting ----
+	g_flDirectionalLightmapMinZ "0.050"
+	g_flDirectionalLightmapStrength "1.000"
+
+	//---- Metalness ----
+	g_flMetalness "0.657"
+
+	//---- Normal ----
+	TextureNormal "source_assets/T_AR4_normal.TGA"
+
+	//---- Roughness ----
+	TextureRoughness "materials/default/default_rough.tga"
+
+	//---- Texture Coordinates ----
+	g_nScaleTexCoordUByModelScaleAxis "0"
+	g_nScaleTexCoordVByModelScaleAxis "0"
+	g_vTexCoordOffset "[0.000 0.000]"
+	g_vTexCoordScale "[1.000 1.000]"
+	g_vTexCoordScrollSpeed "[0.000 0.000]"
+}
