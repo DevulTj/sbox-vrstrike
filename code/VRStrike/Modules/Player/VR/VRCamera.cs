@@ -25,7 +25,7 @@ public partial class VRCamera : PlayerCamera
 	public override void BuildInput( InputBuilder builder )
 	{
 		var joystick = GetJoystickInput();
-		builder.InputDirection.y = joystick.x;
+		builder.InputDirection.y = -joystick.x;
 		builder.InputDirection.x = joystick.y;
 	}
 }

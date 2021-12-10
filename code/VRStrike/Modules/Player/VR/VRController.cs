@@ -24,7 +24,7 @@ public partial class VRController : PawnController
 
 	public virtual void SimulateMovement()
 	{
-		var inputRotation = Input.Rotation.Angles().WithPitch( 0 ).ToRotation();
+		var inputRotation = Input.VR.Head.Rotation.Angles().WithPitch( 0 ).ToRotation();
 
 		Velocity = Velocity.AddClamped( inputRotation * new Vector3( Input.Forward, Input.Left, 0 ) * MaxWalkSpeed * 5 * Time.Delta, MaxWalkSpeed );
 		Velocity = Velocity.Approach( 0, Time.Delta * MaxWalkSpeed * 3 );
