@@ -98,7 +98,7 @@ public partial class VRPlayerPawn : PlayerPawn
 
 	private void DebugDrawHand( Input.VrHand hand, bool isLeft = true )
 	{
-		DebugOverlay.Box( hand.Transform.Position, hand.Transform.Rotation, -1, 1, Color.Red, 0.0f, true );
-		DebugOverlay.Text( hand.Transform.Position, ( Camera as VRCamera ).DebugOutput( isLeft ), 0.0f );
+		DebugOverlay.Box( hand.Transform.Position, hand.Transform.Rotation, -1, 1, IsServer ? Color.Red : Color.Green, 0.0f, true );
+		DebugOverlay.Text( hand.Transform.Position, ( Camera as VRCamera ).DebugOutput( isLeft ), IsServer ? Color.White : Color.Yellow, 0.0f );
 	}
 }
