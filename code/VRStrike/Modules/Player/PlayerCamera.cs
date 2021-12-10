@@ -15,5 +15,6 @@ public partial class PlayerCamera : Camera
 
 	public override void Update()
 	{
+
 	}
 }

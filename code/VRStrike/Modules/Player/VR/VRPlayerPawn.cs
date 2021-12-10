@@ -79,26 +79,11 @@ public partial class VRPlayerPawn : PlayerPawn
 		base.FrameSimulate( cl );
 	}
 
-	private void SimulateHands()
-	{
-		LeftHandEntity.Transform = Input.VR.LeftHand.Transform.WithScale( 0.2f );
-		RightHandEntity.Transform = Input.VR.RightHand.Transform.WithScale( 0.2f );
-	}
-
 	private void SimulateTrackedObjects()
 	{
-		DebugDrawHand( Input.VR.LeftHand );
-		DebugDrawHand( Input.VR.RightHand, false );
-
 		foreach ( var tracked in Input.VR.TrackedObjects )
 		{
 			DebugOverlay.Text( tracked.Transform.Position, $"Tracking: {tracked.Type}" );
 		}
-	}
-
-	private void DebugDrawHand( Input.VrHand hand, bool isLeft = true )
-	{
-		DebugOverlay.Box( hand.Transform.Position, hand.Transform.Rotation, -1, 1, IsServer ? Color.Red : Color.Green, 0.0f, true );
-		DebugOverlay.Text( hand.Transform.Position, ( Camera as VRCamera ).DebugOutput( isLeft ), IsServer ? Color.White : Color.Yellow, 0.0f );
 	}
 }

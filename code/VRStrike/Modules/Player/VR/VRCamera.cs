@@ -28,9 +28,4 @@ public partial class VRCamera : PlayerCamera
 		builder.InputDirection.y = joystick.x;
 		builder.InputDirection.x = joystick.y;
 	}
-
-	public string DebugOutput( bool left = true )
-	{
-		return $"{GetJoystickInput( left )}";
-	}
 }
