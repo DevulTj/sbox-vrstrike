@@ -11,6 +11,35 @@ public enum VRHand
 	Right = 1
 }
 
+public struct FingerData
+{
+	public float Index { get; set; }
+	public float Middle { get; set; }
+	public float Ring { get; set; }
+	public float Pinky { get; set; }
+	public float Thumb { get; set; }
+
+	public bool IsTriggerDown()
+	{
+		return Index.AlmostEqual( 1f, 0.1f );
+	}
+
+	public void Parse( Input.VrHand input )
+	{
+		Thumb = input.GetFingerCurl( 0 );
+		Index = input.GetFingerCurl( 1 );
+		Middle = input.GetFingerCurl( 2 );
+		Ring = input.GetFingerCurl( 3 );
+		Pinky = input.GetFingerCurl( 4 );
+	}
+
+	public void DebugLog()
+	{
+		string Realm = Host.IsServer ? "Server" : "Client";
+		Log.Info( $"{Realm}: {Thumb}, {Index}, {Middle}, {Ring}, {Pinky}" );
+	}
+}
+
 public partial class VRHandEntity : AnimEntity
 {
 	[Net] public VRHand Hand { get; set; } = VRHand.Left;
@@ -19,6 +48,8 @@ public partial class VRHandEntity : AnimEntity
 
 	[Net, Predicted] public HoldableEntity HeldObject { get; private set; }
 	public virtual float HandRadius => 10f;
+
+	public FingerData FingerData = new();
 
 	public Vector3 HoldOffset => Transform.Rotation.Right * 0f + Transform.Rotation.Forward * 0f + Transform.Rotation.Up * -0.1f;
 	public Transform HoldTransform => Transform.WithPosition( Transform.Position + HoldOffset );
@@ -92,12 +123,13 @@ public partial class VRHandEntity : AnimEntity
 	{
 		base.Simulate( cl );
 
-		ShowDebug();
+		//ShowDebug();
 
+		// Parse finger data
+		FingerData.Parse( HandInput );
 
-
+		// Bullshit rotation here
 		Transform = HandInput.Transform.WithRotation( (HandInput.Transform.Rotation.RotateAroundAxis( Vector3.Right, -45f ) ) );
-
 		IsGripping = HandInput.Grip > 0f;
 
 		if ( Host.IsServer )
@@ -122,22 +154,22 @@ public partial class VRHandEntity : AnimEntity
 		Animate();
 	}
 
+	public override void FrameSimulate( Client cl )
+	{
+		base.FrameSimulate( cl );
+	}
+
 	private void Animate()
 	{
-
-		//UseAnimGraph = true;
-		Log.Info( HasAnimGraph() );
-
 		SetAnimBool( "bGrab", true );
 		SetAnimInt( "BasePose", 1 );
 		SetAnimInt( "BasePose", 1 );
 
-		SetAnimFloat( "FingerCurl_Middle", HandInput.GetFingerCurl( 2 ) );
-		SetAnimFloat( "FingerCurl_Ring", HandInput.GetFingerCurl( 3 ) );
-		SetAnimFloat( "FingerCurl_Pinky", HandInput.GetFingerCurl( 4 ) );
-		SetAnimFloat( "FingerCurl_Index", HandInput.GetFingerCurl( 1 ) );
-		SetAnimFloat( "FingerCurl_Thumb", HandInput.GetFingerCurl( 0 ) );
-
+		SetAnimFloat( "FingerCurl_Middle", FingerData.Middle );
+		SetAnimFloat( "FingerCurl_Ring", FingerData.Ring );
+		SetAnimFloat( "FingerCurl_Pinky", FingerData.Pinky );
+		SetAnimFloat( "FingerCurl_Index", FingerData.Index );
+		SetAnimFloat( "FingerCurl_Thumb", FingerData.Thumb );
 	}
 
 	private void StopHoldingObject()

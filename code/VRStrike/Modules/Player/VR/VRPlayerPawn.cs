@@ -96,6 +96,8 @@ public partial class VRPlayerPawn : PlayerPawn
 	public override void FrameSimulate( Client cl )
 	{
 		base.FrameSimulate( cl );
+
+		ClientSimulateHands();
 	}
 
 	private void SimulateTrackedObjects()
