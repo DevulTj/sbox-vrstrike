@@ -25,14 +25,20 @@ public partial class VRPlayerPawn : PlayerPawn
 
 		LeftHandEntity = new()
 		{
+			Hand = VRHand.Left,
 			Owner = this
 		};
+		LeftHandEntity.SetModel( "models/hands/handleft.vmdl" );
 
 		RightHandEntity = new()
-		{ 
+		{
+			Hand = VRHand.Right,
 			Owner = this
 		};
+		RightHandEntity.SetModel( "models/hands/handright.vmdl" );
 	}
+
+	TimeSince LastConjured = 0;
 
 	public override void Simulate( Client cl )
 	{
@@ -41,6 +47,18 @@ public partial class VRPlayerPawn : PlayerPawn
 		SimulateTrackedObjects();
 		SimulateHands();
 		SimulateSnapRotation();
+
+		if ( Host.IsServer )
+		{
+			if ( Input.VR.RightHand.ButtonA.IsPressed && LastConjured > 1f )
+			{
+				var dog = new Hotdog();
+				dog.Position = RightHandEntity.Position;
+
+				LastConjured = 0;
+				dog.Scale = 0.5f;
+			}
+		}
 	}
 
 	protected void SimulateSnapRotation()

@@ -1,5 +1,6 @@
 
 using Sandbox;
+using System;
 using System.Linq;
 
 namespace VRStrike;
@@ -13,19 +14,19 @@ public enum VRHand
 public partial class VRHandEntity : AnimEntity
 {
 	[Net] public VRHand Hand { get; set; } = VRHand.Left;
-	[Net] public bool IsGripping { get; set; } = false;
+	[Net, Predicted] public bool IsGripping { get; set; } = false;
 
-	public HoldableEntity HeldObject { get; private set; }
+	[Net, Predicted] public HoldableEntity HeldObject { get; private set; }
 	public virtual float HandRadius => 10f;
+
+	public Vector3 HoldOffset => Transform.Rotation.Right * -2f + Transform.Rotation.Forward * -2f + Transform.Rotation.Up * -2f;
+	public Transform HoldTransform => Transform.WithPosition( Transform.Position + HoldOffset );
 
 	public override void Spawn()
 	{
 		base.Spawn();
 
-		SetModel( "models/citizen_props/coffeemug01.vmdl" );
 		Tags.Add( "hand" );
-
-		Scale = 0.2f;
 	}
 
 	protected virtual void HeldObjectDrop()
@@ -63,7 +64,7 @@ public partial class VRHandEntity : AnimEntity
 
 	public Entity FindHoldableObject()
 	{
-		var pos = Position;
+		var pos = HoldTransform.Position;
 
 		var ent = Physics.GetEntitiesInSphere( pos, HandRadius )
 							.Where( x => x is HoldableEntity obj && !obj.IsBeingHeld )
@@ -75,9 +76,9 @@ public partial class VRHandEntity : AnimEntity
 
 	protected void ShowDebug()
 	{
-		DebugOverlay.Box( Transform.Position, Transform.Rotation, -1, 1, IsServer ? Color.Red : Color.Green, 0.0f, true );
-		DebugOverlay.Text( Transform.Position, $"{HandInput.Joystick}", IsServer ? Color.White : Color.Yellow, 0.0f );
-		DebugOverlay.Text( Transform.Position + Transform.Rotation.Down * 10f, $"{HandInput.Grip}", IsServer ? Color.White : Color.Yellow, 0.0f );
+		DebugOverlay.Box( HoldTransform.Position, HoldTransform.Rotation, -1, 1, IsServer ? Color.Red : Color.Green, 0.0f, true );
+		DebugOverlay.Text( HoldTransform.Position, $"{HandInput.Joystick.Value}", IsServer ? Color.White : Color.Yellow, 0.0f );
+		DebugOverlay.Text( HoldTransform.Position + HoldTransform.Rotation.Down * .5f, $"{HandInput.Grip.Value}", IsServer ? Color.White : Color.Yellow, 0.0f );
 	}
 
 	public override void Simulate( Client cl )
@@ -98,7 +99,27 @@ public partial class VRHandEntity : AnimEntity
 				StartHoldingObject( entity as HoldableEntity );
 			}
 		}
+		else if ( HeldObject.IsValid() )
+		{
+			StopHoldingObject();
+		}
 
 		HeldObject?.SimulateHeldObject( this );
+
+		Animate();
+	}
+
+	private void Animate()
+	{
+		SetAnimFloat( "Index", HandInput.GetFingerCurl( 1 ) );
+		SetAnimFloat( "Middle", HandInput.GetFingerCurl( 2 ) );
+		SetAnimFloat( "Ring", HandInput.GetFingerCurl( 3 ) );
+		SetAnimFloat( "Thumb", HandInput.GetFingerCurl( 0 ) );
+	}
+
+	private void StopHoldingObject()
+	{
+		HeldObjectDrop();
+		HeldObject = null;
 	}
 }

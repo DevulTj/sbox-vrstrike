@@ -9,9 +9,9 @@ public partial class HoldableEntity : ModelEntity
 
 	public virtual bool SimulateHeldObject( VRHandEntity hand )
 	{
-		Transform = hand.Transform;
 		Velocity = hand.Velocity;
 		BaseVelocity = hand.BaseVelocity;
+
 
 		return true;
 	}
@@ -19,10 +19,17 @@ public partial class HoldableEntity : ModelEntity
 	public virtual void OnPickup( VRHandEntity hand )
 	{
 		IsBeingHeld = true;
+		Parent = hand;
+		Position = hand.HoldTransform.Position;
+		Rotation = hand.HoldTransform.Rotation;
 	}
 
 	public virtual void OnDrop( VRHandEntity hand )
 	{
 		IsBeingHeld = false;
+
+		Velocity *= 2f;
+
+		Parent = null;
 	}
 }
