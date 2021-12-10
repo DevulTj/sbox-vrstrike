@@ -1,5 +1,6 @@
 
 using Sandbox;
+using System;
 
 namespace VRStrike;
 
@@ -21,7 +22,12 @@ public partial class HoldableEntity : ModelEntity
 		IsBeingHeld = true;
 		Parent = hand;
 		Position = hand.HoldTransform.Position;
-		Rotation = hand.HoldTransform.Rotation;
+		Rotation = GetHeldRotation( hand );
+	}
+
+	private Rotation GetHeldRotation( VRHandEntity hand )
+	{
+		return ( hand.HoldTransform.Rotation.Angles() + new Angles( 45, 0, 0 ) ).ToRotation();
 	}
 
 	public virtual void OnDrop( VRHandEntity hand )

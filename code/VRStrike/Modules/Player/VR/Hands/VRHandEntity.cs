@@ -15,6 +15,7 @@ public partial class VRHandEntity : AnimEntity
 {
 	[Net] public VRHand Hand { get; set; } = VRHand.Left;
 	[Net, Predicted] public bool IsGripping { get; set; } = false;
+	[Net, Predicted] public TimeSince TimeSincePickup { get; set; } = -1;
 
 	[Net, Predicted] public HoldableEntity HeldObject { get; private set; }
 	public virtual float HandRadius => 10f;
@@ -39,11 +40,15 @@ public partial class VRHandEntity : AnimEntity
 	protected virtual void HeldObjectPickup()
 	{
 		HeldObject.OnPickup( this );
+		TimeSincePickup = 0;
 	}
 
 	public void StartHoldingObject( HoldableEntity obj )
 	{
 		if ( obj.IsBeingHeld )
+			return;
+
+		if ( TimeSincePickup < 1 )
 			return;
 
 		HeldObjectDrop();
@@ -92,7 +97,7 @@ public partial class VRHandEntity : AnimEntity
 		Transform = HandInput.Transform;
 		IsGripping = HandInput.Grip > 0f;
 
-		if ( IsGripping )
+		if ( IsGripping && !HeldObject.IsValid() )
 		{
 			var entity = FindHoldableObject();
 
@@ -101,7 +106,7 @@ public partial class VRHandEntity : AnimEntity
 				StartHoldingObject( entity as HoldableEntity );
 			}
 		}
-		else if ( HeldObject.IsValid() )
+		else if ( !IsGripping && HeldObject.IsValid() )
 		{
 			StopHoldingObject();
 		}
