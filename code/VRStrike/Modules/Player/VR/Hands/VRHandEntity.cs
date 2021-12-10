@@ -27,6 +27,8 @@ public partial class VRHandEntity : AnimEntity
 		base.Spawn();
 
 		Tags.Add( "hand" );
+
+		UsePhysicsCollision = true;
 	}
 
 	protected virtual void HeldObjectDrop()
