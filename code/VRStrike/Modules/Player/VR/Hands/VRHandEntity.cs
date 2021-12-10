@@ -97,21 +97,24 @@ public partial class VRHandEntity : AnimEntity
 		Transform = HandInput.Transform;
 		IsGripping = HandInput.Grip > 0f;
 
-		if ( IsGripping && !HeldObject.IsValid() )
+		if ( Host.IsServer )
 		{
-			var entity = FindHoldableObject();
-
-			if ( entity != HeldObject && entity.IsValid() )
+			if ( IsGripping && !HeldObject.IsValid() )
 			{
-				StartHoldingObject( entity as HoldableEntity );
-			}
-		}
-		else if ( !IsGripping && HeldObject.IsValid() )
-		{
-			StopHoldingObject();
-		}
+				var entity = FindHoldableObject();
 
-		HeldObject?.SimulateHeldObject( this );
+				if ( entity != HeldObject && entity.IsValid() )
+				{
+					StartHoldingObject( entity as HoldableEntity );
+				}
+			}
+			else if ( !IsGripping && HeldObject.IsValid() )
+			{
+				StopHoldingObject();
+			}
+
+			HeldObject?.SimulateHeldObject( this );
+		}
 
 		Animate();
 	}
