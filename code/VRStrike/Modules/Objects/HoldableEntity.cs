@@ -6,13 +6,24 @@ namespace VRStrike;
 
 public partial class HoldableEntity : ModelEntity
 {
+	public virtual string Model => "";
+
 	public bool IsBeingHeld { get; set; } = false;
+
+	public override void Spawn()
+	{
+		base.Spawn();
+
+		if ( !string.IsNullOrEmpty( Model ) )
+		{
+			SetModel( Model );
+		}
+	}
 
 	public virtual bool SimulateHeldObject( VRHandEntity hand )
 	{
 		Velocity = hand.Velocity;
 		BaseVelocity = hand.BaseVelocity;
-
 
 		return true;
 	}
@@ -21,13 +32,18 @@ public partial class HoldableEntity : ModelEntity
 	{
 		IsBeingHeld = true;
 		Parent = hand;
-		Position = hand.HoldTransform.Position;
-		Rotation = GetHeldRotation( hand );
+		Position = GetHoldPosition( hand );
+		Rotation = GetHoldRotation( hand );
 	}
 
-	private Rotation GetHeldRotation( VRHandEntity hand )
+	protected virtual Rotation GetHoldRotation( VRHandEntity hand )
 	{
-		return ( hand.HoldTransform.Rotation.Angles() + new Angles( 45, 0, 0 ) ).ToRotation();
+		return ( hand.HoldTransform.Rotation.Angles() + new Angles( 0, 0, 0 ) ).ToRotation();
+	}
+
+	protected virtual Vector3 GetHoldPosition( VRHandEntity hand )
+	{
+		return hand.HoldTransform.Position;
 	}
 
 	public virtual void OnDrop( VRHandEntity hand )

@@ -20,7 +20,7 @@ public partial class VRHandEntity : AnimEntity
 	[Net, Predicted] public HoldableEntity HeldObject { get; private set; }
 	public virtual float HandRadius => 10f;
 
-	public Vector3 HoldOffset => Transform.Rotation.Right * -2f + Transform.Rotation.Forward * -2f + Transform.Rotation.Up * -2f;
+	public Vector3 HoldOffset => Transform.Rotation.Right * 0f + Transform.Rotation.Forward * 0f + Transform.Rotation.Up * -0.1f;
 	public Transform HoldTransform => Transform.WithPosition( Transform.Position + HoldOffset );
 
 	public override void Spawn()
@@ -94,7 +94,10 @@ public partial class VRHandEntity : AnimEntity
 
 		ShowDebug();
 
-		Transform = HandInput.Transform;
+
+
+		Transform = HandInput.Transform.WithRotation( (HandInput.Transform.Rotation.RotateAroundAxis( Vector3.Right, -45f ) ) );
+
 		IsGripping = HandInput.Grip > 0f;
 
 		if ( Host.IsServer )
@@ -121,10 +124,20 @@ public partial class VRHandEntity : AnimEntity
 
 	private void Animate()
 	{
-		SetAnimFloat( "Index", HandInput.GetFingerCurl( 1 ) );
-		SetAnimFloat( "Middle", HandInput.GetFingerCurl( 2 ) );
-		SetAnimFloat( "Ring", HandInput.GetFingerCurl( 3 ) );
-		SetAnimFloat( "Thumb", HandInput.GetFingerCurl( 0 ) );
+
+		//UseAnimGraph = true;
+		Log.Info( HasAnimGraph() );
+
+		SetAnimBool( "bGrab", true );
+		SetAnimInt( "BasePose", 1 );
+		SetAnimInt( "BasePose", 1 );
+
+		SetAnimFloat( "FingerCurl_Middle", HandInput.GetFingerCurl( 2 ) );
+		SetAnimFloat( "FingerCurl_Ring", HandInput.GetFingerCurl( 3 ) );
+		SetAnimFloat( "FingerCurl_Pinky", HandInput.GetFingerCurl( 4 ) );
+		SetAnimFloat( "FingerCurl_Index", HandInput.GetFingerCurl( 1 ) );
+		SetAnimFloat( "FingerCurl_Thumb", HandInput.GetFingerCurl( 0 ) );
+
 	}
 
 	private void StopHoldingObject()

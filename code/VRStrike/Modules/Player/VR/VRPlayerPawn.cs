@@ -28,14 +28,15 @@ public partial class VRPlayerPawn : PlayerPawn
 			Hand = VRHand.Left,
 			Owner = this
 		};
-		LeftHandEntity.SetModel( "models/hands/handleft.vmdl" );
+		LeftHandEntity.SetModel( "models/hands/alyx_hand_left.vmdl" );
 
 		RightHandEntity = new()
 		{
 			Hand = VRHand.Right,
 			Owner = this
 		};
-		RightHandEntity.SetModel( "models/hands/handright.vmdl" );
+		RightHandEntity.SetModel( "models/hands/alyx_hand_right.vmdl" );
+
 	}
 
 	TimeSince LastConjured = 0;
@@ -52,7 +53,7 @@ public partial class VRPlayerPawn : PlayerPawn
 		{
 			if ( Input.VR.RightHand.ButtonA.IsPressed && LastConjured > 1f )
 			{
-				var dog = new Hotdog();
+				var dog = new Weapon();
 				dog.Position = RightHandEntity.Position;
 
 				LastConjured = 0;
