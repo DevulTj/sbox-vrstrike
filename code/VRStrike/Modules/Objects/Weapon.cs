@@ -21,9 +21,35 @@ public partial class Weapon : HoldableEntity
 	protected virtual float MaxRicochetAngle => 45f;
 	protected float MaxPenetration => 20f;
 
-	public virtual float FireRate => 0.1f;
+	public virtual float FireRate => 1f/20f;
 
 	public TimeSince TimeSincePrimaryAttack = 0;
+
+	protected Vector2 CurrentRecoil = Vector2.Zero;
+
+	public virtual float XRecoilDieSpeed => 50f * 1.9f;
+	public virtual float YRecoilDieSpeed => 70f * 1.9f;
+	public virtual float XRecoilOnShot => Rand.Float( 5f, 7f );
+	public virtual float YRecoilOnShot => Rand.Float( 4, 12f );
+
+	protected virtual void SimulateRecoil()
+	{
+		bool shouldRemoveRecoil = false;
+		if ( CurrentRecoil.x > 0 )
+		{
+			CurrentRecoil.x -= XRecoilDieSpeed * Time.Delta;
+			shouldRemoveRecoil = true;
+		}
+
+		if ( CurrentRecoil.y > 0 )
+		{
+			CurrentRecoil.y -= YRecoilDieSpeed * Time.Delta;
+			shouldRemoveRecoil = true;
+		}
+
+		if ( shouldRemoveRecoil )
+			LocalRotation = new Angles( -CurrentRecoil.y, CurrentRecoil.x, 0 ).ToRotation();
+	}
 
 	public override bool SimulateHeldObject( VRHandEntity hand )
 	{
@@ -35,6 +61,8 @@ public partial class Weapon : HoldableEntity
 				PrimaryAttack();
 			}
 		}
+
+		SimulateRecoil();
 
 		return true;
 	}
@@ -128,8 +156,6 @@ public partial class Weapon : HoldableEntity
 			.Size( radius )
 			.Run();
 
-			DebugOverlay.TraceResult( tr );
-
 			if ( tr.Hit )
 				hits.Add( tr );
 
@@ -177,6 +203,9 @@ public partial class Weapon : HoldableEntity
 		Rand.SetSeed( Time.Tick );
 
 		spread += GetAddedSpread();
+
+		CurrentRecoil.x += XRecoilOnShot;
+		CurrentRecoil.y += YRecoilOnShot;
 
 		for ( int i = 0; i < bulletCount; i++ )
 		{
