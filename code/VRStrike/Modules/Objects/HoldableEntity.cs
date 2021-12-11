@@ -38,7 +38,7 @@ public partial class HoldableEntity : ModelEntity
 
 	protected virtual Rotation GetHoldRotation( VRHandEntity hand )
 	{
-		return ( hand.HoldTransform.Rotation.Angles() + new Angles( 0, 0, 0 ) ).ToRotation();
+		return hand.HoldTransform.Rotation;
 	}
 
 	protected virtual Vector3 GetHoldPosition( VRHandEntity hand )
