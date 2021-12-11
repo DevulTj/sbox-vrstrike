@@ -3,7 +3,7 @@ using Sandbox;
 
 namespace VRStrike;
 
-public partial class Hotdog : HoldableEntity
+public partial class CoffeeMug : HoldableEntity
 {
 	public override void Spawn()
 	{
