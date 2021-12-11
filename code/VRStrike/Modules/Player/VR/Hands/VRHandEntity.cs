@@ -163,7 +163,6 @@ public partial class VRHandEntity : AnimEntity
 	{
 		SetAnimBool( "bGrab", true );
 		SetAnimInt( "BasePose", 1 );
-		SetAnimInt( "BasePose", 1 );
 
 		SetAnimFloat( "FingerCurl_Middle", FingerData.Middle );
 		SetAnimFloat( "FingerCurl_Ring", FingerData.Ring );
