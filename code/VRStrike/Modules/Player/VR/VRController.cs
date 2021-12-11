@@ -16,12 +16,6 @@ public partial class VRController : PawnController
 		SimulateMovement();
 	}
 
-	public override void FrameSimulate()
-	{
-		base.FrameSimulate();
-
-	}
-
 	public virtual void SimulateMovement()
 	{
 		var inputRotation = Input.VR.Head.Rotation.Angles().WithPitch( 0 ).ToRotation();

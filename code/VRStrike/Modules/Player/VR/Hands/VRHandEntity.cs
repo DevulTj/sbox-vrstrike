@@ -48,6 +48,7 @@ public partial class VRHandEntity : AnimEntity
 
 	[Net, Predicted] public HoldableEntity HeldObject { get; private set; }
 	public virtual float HandRadius => 10f;
+	public virtual float PickupCooldown => 1f;
 
 	public FingerData FingerData = new();
 
@@ -79,7 +80,7 @@ public partial class VRHandEntity : AnimEntity
 		if ( obj.IsBeingHeld )
 			return;
 
-		if ( TimeSincePickup < 1 )
+		if ( TimeSincePickup < PickupCooldown )
 			return;
 
 		HeldObjectDrop();
@@ -95,7 +96,7 @@ public partial class VRHandEntity : AnimEntity
 			{
 				VRHand.Left => Input.VR.LeftHand,
 				VRHand.Right => Input.VR.RightHand,
-				_ => throw new System.Exception( "Invalid hand specified for VRHandEntity.GetInput" )
+				_ => throw new Exception( "Invalid hand specified for VRHandEntity.GetInput" )
 			};
 		}
 	}
