@@ -52,6 +52,8 @@ public partial class VRPlayerPawn : PlayerPawn
 		SimulateHands();
 		SimulateSnapRotation();
 
+		EyePos = Input.VR.Head.Position;
+
 		if ( Host.IsServer )
 		{
 			if ( Input.VR.RightHand.ButtonA.IsPressed && LastConjured > 1f )
@@ -115,12 +117,11 @@ public partial class VRPlayerPawn : PlayerPawn
 	{
 		base.BuildInput( input );
 
-		var ray = new Ray( RightHandEntity.Position, RightHandEntity.Rotation.Forward );
+		var pos = RightHandEntity.Position;
+		var rot = RightHandEntity.Rotation;
+		var ray = new Ray( pos, rot.Forward );
 
 		WorldInput.Ray = ray;
 		WorldInput.MouseLeftPressed = Input.VR.RightHand.Trigger.Value.AlmostEqual( 1f );
-
-		DebugOverlay.TraceResult( Trace.Ray( ray, 100000f ).WithTag( "ui" ).EntitiesOnly().Run() );
-
 	}
 }
