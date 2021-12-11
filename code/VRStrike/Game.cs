@@ -7,17 +7,23 @@ namespace VRStrike;
 
 public partial class Game : Sandbox.Game
 {
+	public Game()
+	{
+		if ( IsServer )
+		{
+			_ = new HudEntity();
+		}
+	}
+
     public override void Spawn()
     {
         base.Spawn();
+	}
 
-        // new HudEntity();
-    }
-
-    /// <summary>
-    /// Client joined, create them a LabPawn and spawn them
-    /// </summary>
-    public override void ClientJoined( Client client )
+	/// <summary>
+	/// Client joined, create them a LabPawn and spawn them
+	/// </summary>
+	public override void ClientJoined( Client client )
     {
         base.ClientJoined( client );
 

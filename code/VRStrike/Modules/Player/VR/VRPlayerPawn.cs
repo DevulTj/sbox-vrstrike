@@ -1,5 +1,6 @@
 
 using Sandbox;
+using Sandbox.UI;
 
 namespace VRStrike;
 
@@ -8,6 +9,8 @@ public partial class VRPlayerPawn : PlayerPawn
 	// Hands
 	[Net] public VRHandEntity LeftHandEntity { get; set; }
 	[Net] public VRHandEntity RightHandEntity { get; set; }
+
+	WorldInput WorldInput = new();
 
 	// Snap Rotation
 	public virtual float SnapRotationDelay => 0.25f;
@@ -106,5 +109,18 @@ public partial class VRPlayerPawn : PlayerPawn
 		{
 			DebugOverlay.Text( tracked.Transform.Position, $"Tracking: {tracked.Type}" );
 		}
+	}
+
+	public override void BuildInput( InputBuilder input )
+	{
+		base.BuildInput( input );
+
+		var ray = new Ray( RightHandEntity.Position, RightHandEntity.Rotation.Forward );
+
+		WorldInput.Ray = ray;
+		WorldInput.MouseLeftPressed = Input.VR.RightHand.Trigger.Value.AlmostEqual( 1f );
+
+		DebugOverlay.TraceResult( Trace.Ray( ray, 100000f ).WithTag( "ui" ).EntitiesOnly().Run() );
+
 	}
 }
