@@ -11,9 +11,6 @@ RadarPanel {
         opacity: 1;
     }
 
-    align-content: center;
-
-
     .main {
         border-radius: 512px;
         position: absolute;
@@ -24,10 +21,8 @@ RadarPanel {
         border: 7px solid rgba( lighten( cyan, 70% ), 0.2 );
     }
 
-    align-items: center;
-    justify-content: center;
-
     .pulse {
+        position: absolute;
         border-radius: 512px;
         left: 0%;
         top: 0%;
@@ -35,5 +30,31 @@ RadarPanel {
         height: 50%;
         transform-origin: 50% 50%;
         border: 7px solid rgba( lighten( cyan, 70% ), 0.2 );
+    }
+
+    .dotanchor {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+
+
+        minimapdot {
+            background-color: white;
+            box-shadow: 0 0px 15px rgba(white,0.1);
+            position: absolute;
+            border-radius: 50%;
+            height: 12px;
+            width: 12px;
+            transition: opacity 0.2s ease;
+            opacity: 1;
+
+            label {
+                top: 16px;
+                font-family: Poppins;
+                color: white;
+                font-size: 20px;
+                position: absolute;
+            }
+        }
     }
 }

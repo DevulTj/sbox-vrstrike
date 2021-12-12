@@ -53,6 +53,7 @@ public partial class VRPlayerPawn : PlayerPawn
 		SimulateSnapRotation();
 
 		EyePos = Input.VR.Head.Position;
+		EyeRot = Input.VR.Head.Rotation;
 
 		if ( Host.IsServer )
 		{

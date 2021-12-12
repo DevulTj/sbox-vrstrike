@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace VRStrike;
 
-public partial class Weapon : HoldableEntity
+public partial class Weapon : HoldableEntity, IMiniMapEntity
 {
 	public override string Model => "models/weapons/w_mac11.vmdl";
 
@@ -241,5 +241,24 @@ public partial class Weapon : HoldableEntity
 		var tracer = Particles.Create( "particles/swb/tracer/tracer_large.vpcf" );
 		tracer.SetPosition( 1, start );
 		tracer.SetPosition( 2, end );
+	}
+
+	string IMiniMapEntity.GetMainClass()
+	{
+		return "object";
+	}
+
+	bool IMiniMapEntity.Update( ref MiniMapDotBuilder info )
+	{
+		if ( !this.IsValid() )
+			return false;
+
+		if ( LifeState != LifeState.Alive )
+			return false;
+
+		info.Text = $"{Position.Distance(Local.Pawn.EyePos):F0}";
+		info.Position = Position;
+
+		return true;
 	}
 }
