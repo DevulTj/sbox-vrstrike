@@ -1,0 +1,39 @@
+
+RadarPanel {
+    border-radius: 512px;
+    pointer-events: all;
+    flex-direction: column;
+    transition: all 0.25s ease;
+    opacity: 0;
+    background-image: radial-gradient( rgba( black, 0 ), rgba( black, 0.5 ) 50% );
+
+    &.visible {
+        opacity: 1;
+    }
+
+    align-content: center;
+
+
+    .main {
+        border-radius: 512px;
+        position: absolute;
+        left: 0%;
+        top: 0%;
+        width: 100%;
+        height: 100%;
+        border: 7px solid rgba( lighten( cyan, 70% ), 0.2 );
+    }
+
+    align-items: center;
+    justify-content: center;
+
+    .pulse {
+        border-radius: 512px;
+        left: 0%;
+        top: 0%;
+        width: 50%;
+        height: 50%;
+        transform-origin: 50% 50%;
+        border: 7px solid rgba( lighten( cyan, 70% ), 0.2 );
+    }
+}

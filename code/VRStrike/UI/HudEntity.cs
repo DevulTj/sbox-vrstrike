@@ -7,6 +7,7 @@ namespace VRStrike;
 public class HudEntity : HudEntity<RootPanel>
 {
 	public SpawnMenuPanel SpawnMenu { get; set; }
+	public RadarPanel Radar { get; set; }
 
 	public HudEntity()
 	{
@@ -16,5 +17,6 @@ public class HudEntity : HudEntity<RootPanel>
 		RootPanel.StyleSheet.Load( "/code/VRStrike/UI/HudEntity.scss" );
 
 		SpawnMenu = new SpawnMenuPanel();
+		Radar = new RadarPanel();
 	}
 }
