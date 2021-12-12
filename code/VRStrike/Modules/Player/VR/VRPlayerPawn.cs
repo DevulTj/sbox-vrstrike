@@ -54,18 +54,6 @@ public partial class VRPlayerPawn : PlayerPawn
 
 		EyePos = Input.VR.Head.Position;
 		EyeRot = Input.VR.Head.Rotation;
-
-		if ( Host.IsServer )
-		{
-			if ( Input.VR.RightHand.ButtonA.IsPressed && LastConjured > 1f )
-			{
-				var dog = new Weapon();
-				dog.Position = RightHandEntity.Position;
-
-				LastConjured = 0;
-				dog.Scale = 0.5f;
-			}
-		}
 	}
 
 	protected void SimulateSnapRotation()

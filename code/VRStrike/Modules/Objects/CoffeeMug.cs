@@ -3,6 +3,7 @@ using Sandbox;
 
 namespace VRStrike;
 
+[Library( "vrs_mug" )]
 public partial class CoffeeMug : HoldableEntity
 {
 	public override void Spawn()

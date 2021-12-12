@@ -50,4 +50,16 @@ public partial class Game : Sandbox.Game
 
         return base.BuildCamera( camSetup );
     }
+
+
+	[ServerCmd( "vrs_spawnmenu" )]
+	public static void SpawnItem( string item )
+	{
+		var player = ConsoleSystem.Caller.Pawn as VRPlayerPawn;
+
+		var dog = Library.Create<HoldableEntity>( item );
+		if ( dog == null ) return;
+
+		dog.Position = player.RightHandEntity.Position;
+	}
 }

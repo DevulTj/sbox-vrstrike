@@ -13,6 +13,7 @@ SpawnMenuPanel {
 
 
     button {
+        pointer-events: all;
         border-radius: 16px;
         background-image: linear-gradient( to top, rgba( #0094ff, 1 ), rgba( #005b9d, 1 ) );
         width: 100%;

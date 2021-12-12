@@ -17,6 +17,7 @@ public partial class HoldableEntity : ModelEntity
 		if ( !string.IsNullOrEmpty( Model ) )
 		{
 			SetModel( Model );
+			Scale = 0.5f;
 		}
 	}
 

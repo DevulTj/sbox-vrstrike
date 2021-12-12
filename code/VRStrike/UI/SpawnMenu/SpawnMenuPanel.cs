@@ -11,6 +11,28 @@ public class SpawnMenuPanel : WorldPanel
 		BindClass( "visible", () => ShouldDisplay() );
     }
 
+	public void SpawnItem( string item )
+	{
+		Game.SpawnItem( item );
+
+		Log.Info( $"spawning item: {item}" );
+	}
+
+	public void SpawnAR4()
+	{
+		SpawnItem( "vrs_ar4" );
+	}
+
+	public void SpawnMAC11()
+	{
+		SpawnItem( "vrs_mac11" );
+	}
+
+	public void SpawnMug()
+	{
+		SpawnItem( "vrs_mug" );
+	}
+
 	private bool ShouldDisplay()
 	{
 		var player = Local.Pawn as VRPlayerPawn;
