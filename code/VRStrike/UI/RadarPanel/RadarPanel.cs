@@ -139,8 +139,6 @@ public class RadarPanel : WorldPanel
 	{
 		base.Tick();
 
-		UpdateMiniMapDots();
-
 
 		if ( Local.Pawn is VRPlayerPawn player )
 		{
@@ -166,6 +164,9 @@ public class RadarPanel : WorldPanel
 
 				if ( NextPulse <= 0 )
 				{
+
+					UpdateMiniMapDots();
+
 					LastPulse = 0;
 					NextPulse = 1;
 				}

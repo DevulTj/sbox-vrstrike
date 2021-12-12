@@ -256,7 +256,7 @@ public partial class Weapon : HoldableEntity, IMiniMapEntity
 		if ( LifeState != LifeState.Alive )
 			return false;
 
-		info.Text = $"{Position.Distance(Local.Pawn.EyePos):F0}";
+		info.Text = "";
 		info.Position = Position;
 
 		return true;
