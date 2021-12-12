@@ -90,7 +90,7 @@ public class RadarPanel : WorldPanel
 		return;
 	}
 
-	protected void ValidateEntity( IMiniMapEntity entity )
+	protected void ValidateEntity( IMiniMapEntity entity, bool updatePos )
 	{
 		var info = new MiniMapDotBuilder();
 		var styleClass = entity.GetMainClass();
@@ -115,22 +115,26 @@ public class RadarPanel : WorldPanel
 			Dots.Add( currentDot );
 		}
 
+		if ( updatePos )
+		{
+			var player = Local.Pawn as VRPlayerPawn;
+			var diff = info.Position - player.EyePos;
 
-		var player = Local.Pawn as VRPlayerPawn;
-		var diff = info.Position - player.EyePos;
-
-		var x = MiniMapSize.x / Range * diff.x * 0.5f;
-		var y = MiniMapSize.y / Range * diff.y * 0.5f;
-		var ang = MathF.PI / 180 * (player.LeftHandEntity.Rotation.Yaw() - 0f);
-		var cos = MathF.Cos( ang );
-		var sin = MathF.Sin( ang );
+			var x = MiniMapSize.x / Range * diff.x * 0.5f;
+			var y = MiniMapSize.y / Range * diff.y * 0.5f;
+			var ang = MathF.PI / 180 * (player.LeftHandEntity.Rotation.Yaw() - 0f);
+			var cos = MathF.Cos( ang );
+			var sin = MathF.Sin( ang );
 
 
-		var translatedX = x * cos + y * sin;
-		var translatedY = y * cos - x * sin;
+			var translatedX = x * cos + y * sin;
+			var translatedY = y * cos - x * sin;
 
-		currentDot.Style.Left = (MiniMapSize.x / 2f) + translatedX;
-		currentDot.Style.Top = (MiniMapSize.y / 2f) - translatedY;
+			currentDot.Style.Left = (MiniMapSize.x / 2f) + translatedX;
+			currentDot.Style.Top = (MiniMapSize.y / 2f) - translatedY;
+		}
+
+		currentDot.Style.Opacity = 1 - (1 - NextPulse);
 		currentDot.Apply( info );
 	}
 
@@ -139,6 +143,7 @@ public class RadarPanel : WorldPanel
 	{
 		base.Tick();
 
+		UpdateMiniMapDots( false );
 
 		if ( Local.Pawn is VRPlayerPawn player )
 		{
@@ -164,8 +169,8 @@ public class RadarPanel : WorldPanel
 
 				if ( NextPulse <= 0 )
 				{
+					UpdateMiniMapDots( true );
 
-					UpdateMiniMapDots();
 
 					LastPulse = 0;
 					NextPulse = 1;
@@ -174,13 +179,13 @@ public class RadarPanel : WorldPanel
 		}
 	}
 
-	protected void UpdateMiniMapDots()
+	protected void UpdateMiniMapDots( bool updatePos )
 	{
 		var existingDots = Dots.Select( x => x.Entity ).ToList();
 
 		Entity.All.OfType<IMiniMapEntity>()
 						.Concat( existingDots )
 						.ToList()
-						.ForEach( x => ValidateEntity( x ) );
+						.ForEach( x => ValidateEntity( x, updatePos ) );
 	}
 }
