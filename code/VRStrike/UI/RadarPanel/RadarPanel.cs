@@ -48,6 +48,8 @@ public class RadarPanel : WorldPanel
 	{
 		var player = Local.Pawn as VRPlayerPawn;
 
+		if ( player.LeftHandEntity.HeldObject.IsValid() ) return false;
+
 		Vector3 dir = ( Position - player.EyePos ).Normal;
 		float dot = Vector3.Dot( dir, Rotation.Forward );
 
