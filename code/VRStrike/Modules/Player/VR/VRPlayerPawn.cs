@@ -24,7 +24,7 @@ public partial class VRPlayerPawn : PlayerPawn
 		base.Spawn();
 
 		Controller = new VRController();
-		Camera = new VRCamera();
+		CameraMode = new VRCamera();
 
 		LeftHandEntity = new()
 		{
@@ -52,8 +52,8 @@ public partial class VRPlayerPawn : PlayerPawn
 		SimulateHands();
 		SimulateSnapRotation();
 
-		EyePos = Input.VR.Head.Position;
-		EyeRot = Input.VR.Head.Rotation;
+		EyePosition = Input.VR.Head.Position;
+		EyeRotation = Input.VR.Head.Rotation;
 	}
 
 	protected void SimulateSnapRotation()

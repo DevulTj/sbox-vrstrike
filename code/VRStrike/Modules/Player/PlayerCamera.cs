@@ -3,7 +3,7 @@ using Sandbox;
 
 namespace VRStrike;
 
-public partial class PlayerCamera : Camera
+public partial class PlayerCamera : CameraMode
 {
 	public override void Build( ref CameraSetup setup )
 	{

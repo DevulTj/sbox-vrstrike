@@ -21,7 +21,7 @@ public partial class Weapon : HoldableEntity, IMiniMapEntity
 	protected virtual float MaxRicochetAngle => 45f;
 	protected float MaxPenetration => 20f;
 
-	public virtual float FireRate => 1f/20f;
+	public virtual float FireRate => 1f / 20f;
 
 	public TimeSince TimeSincePrimaryAttack = 0;
 
@@ -145,9 +145,8 @@ public partial class Weapon : HoldableEntity, IMiniMapEntity
 		{
 			currentAmountOfHits++;
 
-			bool inWater = Physics.TestPointContents( _start, CollisionLayer.Water );
+			bool inWater = Map.Physics.IsPointWater( _start );
 			var tr = Trace.Ray( _start, _end )
-			.UseLagCompensation()
 			.UseHitboxes()
 			.HitLayer( CollisionLayer.Water, !inWater )
 			.HitLayer( CollisionLayer.Debris )
@@ -163,16 +162,16 @@ public partial class Weapon : HoldableEntity, IMiniMapEntity
 
 			if ( tr.Entity is GlassShard )
 			{
-				_start = tr.EndPos;
-				_end = tr.EndPos + (tr.Direction * 5000);
+				_start = tr.EndPosition;
+				_end = tr.EndPosition + ( tr.Direction * 5000 );
 			}
 			else
 			{
 				var reflectDir = CalculateDirection( tr, ref currentAmountOfHits );
 				var angle = reflectDir.Angle( tr.Direction );
 
-				_start = tr.EndPos;
-				_end = tr.EndPos + (reflectDir * 5000);
+				_start = tr.EndPosition;
+				_end = tr.EndPosition + ( reflectDir * 5000 );
 
 				if ( !ShouldContinue( tr, angle ) )
 					break;
@@ -223,14 +222,14 @@ public partial class Weapon : HoldableEntity, IMiniMapEntity
 				if ( !IsServer ) continue;
 				if ( !tr.Entity.IsValid() ) continue;
 
-				var damageInfo = DamageInfo.FromBullet( tr.EndPos, muzzle.Rotation.Forward * 100 * force, damage )
+				var damageInfo = DamageInfo.FromBullet( tr.EndPosition, muzzle.Rotation.Forward * 100 * force, damage )
 					.UsingTraceResult( tr )
 					.WithAttacker( Owner )
 					.WithWeapon( this );
 
 				tr.Entity.TakeDamage( damageInfo );
 
-				SendTracer( tr.StartPos, tr.EndPos );
+				SendTracer( tr.StartPosition, tr.EndPosition );
 			}
 		}
 	}

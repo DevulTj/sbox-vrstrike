@@ -89,7 +89,7 @@ public partial class VRHandEntity : AnimEntity
 	}
 
 	public Input.VrHand HandInput
-	{ 
+	{
 		get
 		{
 			return Hand switch
@@ -105,7 +105,7 @@ public partial class VRHandEntity : AnimEntity
 	{
 		var pos = HoldTransform.Position;
 
-		var ent = Physics.GetEntitiesInSphere( pos, HandRadius )
+		var ent = Entity.FindInSphere( pos, HandRadius )
 							.Where( x => x is HoldableEntity obj && !obj.IsBeingHeld )
 							.OrderBy( x => x.Position.Distance( pos ) )
 							.FirstOrDefault();
@@ -130,7 +130,7 @@ public partial class VRHandEntity : AnimEntity
 		FingerData.Parse( HandInput );
 
 		// Bullshit rotation here
-		Transform = HandInput.Transform.WithRotation( (HandInput.Transform.Rotation.RotateAroundAxis( Vector3.Right, -45f ) ) );
+		Transform = HandInput.Transform.WithRotation( ( HandInput.Transform.Rotation.RotateAroundAxis( Vector3.Right, -45f ) ) );
 		IsGripping = HandInput.Grip > 0f;
 
 		if ( Host.IsServer )
@@ -162,14 +162,14 @@ public partial class VRHandEntity : AnimEntity
 
 	private void Animate()
 	{
-		SetAnimBool( "bGrab", true );
-		SetAnimInt( "BasePose", 1 );
+		SetAnimParameter( "bGrab", true );
+		SetAnimParameter( "BasePose", 1 );
 
-		SetAnimFloat( "FingerCurl_Middle", FingerData.Middle );
-		SetAnimFloat( "FingerCurl_Ring", FingerData.Ring );
-		SetAnimFloat( "FingerCurl_Pinky", FingerData.Pinky );
-		SetAnimFloat( "FingerCurl_Index", FingerData.Index );
-		SetAnimFloat( "FingerCurl_Thumb", FingerData.Thumb );
+		SetAnimParameter( "FingerCurl_Middle", FingerData.Middle );
+		SetAnimParameter( "FingerCurl_Ring", FingerData.Ring );
+		SetAnimParameter( "FingerCurl_Pinky", FingerData.Pinky );
+		SetAnimParameter( "FingerCurl_Index", FingerData.Index );
+		SetAnimParameter( "FingerCurl_Thumb", FingerData.Thumb );
 	}
 
 	private void StopHoldingObject()

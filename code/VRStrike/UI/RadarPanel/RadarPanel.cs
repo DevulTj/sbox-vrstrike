@@ -40,9 +40,9 @@ public class RadarPanel : WorldPanel
 	protected List<MiniMapDot> Dots { get; set; } = new();
 
 	public RadarPanel()
-    {
+	{
 		BindClass( "visible", () => ShouldDisplay() );
-    }
+	}
 
 	private bool ShouldDisplay()
 	{
@@ -50,7 +50,7 @@ public class RadarPanel : WorldPanel
 
 		if ( player.LeftHandEntity.HeldObject.IsValid() ) return false;
 
-		Vector3 dir = ( Position - player.EyePos ).Normal;
+		Vector3 dir = ( Position - player.EyePosition ).Normal;
 		float dot = Vector3.Dot( dir, Rotation.Forward );
 
 
@@ -120,11 +120,11 @@ public class RadarPanel : WorldPanel
 		if ( updatePos )
 		{
 			var player = Local.Pawn as VRPlayerPawn;
-			var diff = info.Position - player.EyePos;
+			var diff = info.Position - player.EyePosition;
 
 			var x = MiniMapSize.x / Range * diff.x * 0.5f;
 			var y = MiniMapSize.y / Range * diff.y * 0.5f;
-			var ang = MathF.PI / 180 * (player.LeftHandEntity.Rotation.Yaw() - 0f);
+			var ang = MathF.PI / 180 * ( player.LeftHandEntity.Rotation.Yaw() - 0f );
 			var cos = MathF.Cos( ang );
 			var sin = MathF.Sin( ang );
 
@@ -132,11 +132,11 @@ public class RadarPanel : WorldPanel
 			var translatedX = x * cos + y * sin;
 			var translatedY = y * cos - x * sin;
 
-			currentDot.Style.Left = (MiniMapSize.x / 2f) + translatedX;
-			currentDot.Style.Top = (MiniMapSize.y / 2f) - translatedY;
+			currentDot.Style.Left = ( MiniMapSize.x / 2f ) + translatedX;
+			currentDot.Style.Top = ( MiniMapSize.y / 2f ) - translatedY;
 		}
 
-		currentDot.Style.Opacity = 1 - (1 - NextPulse);
+		currentDot.Style.Opacity = 1 - ( 1 - NextPulse );
 		currentDot.Apply( info );
 	}
 
@@ -163,11 +163,11 @@ public class RadarPanel : WorldPanel
 
 			if ( Pulse != null )
 			{
-				var pulseProgress = (1 - NextPulse) * 100f;
+				var pulseProgress = ( 1 - NextPulse ) * 100f;
 				Pulse.Style.Width = Length.Percent( pulseProgress );
 				Pulse.Style.Height = Length.Percent( pulseProgress );
 
-				Pulse.Style.Opacity = 1 - (1 - NextPulse);
+				Pulse.Style.Opacity = 1 - ( 1 - NextPulse );
 
 				if ( NextPulse <= 0 )
 				{
