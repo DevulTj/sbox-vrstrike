@@ -1,3 +1,25 @@
 {
-	"sharedassets": "*.*"
+  "Title": "VRStrike",
+  "Type": "game",
+  "Org": "local",
+  "Ident": "sbox-vrstrike",
+  "Schema": 1,
+  "HasAssets": true,
+  "AssetsPath": "",
+  "ResourcePaths": null,
+  "HasCode": true,
+  "CodePath": "code",
+  "RootNamespace": "VRStrike",
+  "Metadata": {
+    "MapList": [
+      "facepunch.construct"
+    ],
+    "PerMapRanking": false,
+    "LeaderboardType": 0,
+    "RankType": 0,
+    "MapSelect": 0,
+    "GameNetworkType": 0,
+    "MaxPlayers": 16,
+    "MinPlayers": 1
+  }
 }
