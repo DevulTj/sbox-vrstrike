@@ -6,7 +6,7 @@ namespace VRStrike;
 
 public partial class HoldableEntity : ModelEntity
 {
-	public virtual string Model => "";
+	public virtual string ModelPath => "";
 
 	public bool IsBeingHeld { get; set; } = false;
 
@@ -14,9 +14,9 @@ public partial class HoldableEntity : ModelEntity
 	{
 		base.Spawn();
 
-		if ( !string.IsNullOrEmpty( Model ) )
+		if ( !string.IsNullOrEmpty( ModelPath ) )
 		{
-			SetModel( Model );
+			SetModel( ModelPath );
 			Scale = 0.5f;
 		}
 	}

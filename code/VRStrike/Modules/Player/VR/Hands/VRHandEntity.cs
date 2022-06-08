@@ -40,9 +40,9 @@ public struct FingerData
 	}
 }
 
-public partial class VRHandEntity : AnimEntity
+public partial class VRHandEntity : AnimatedEntity
 {
-	[Net] public VRHand Hand { get; set; } = VRHand.Left;
+	[Net, Predicted] public VRHand Hand { get; set; } = VRHand.Left;
 	[Net, Predicted] public bool IsGripping { get; set; } = false;
 	[Net, Predicted] public TimeSince TimeSincePickup { get; set; } = -1;
 
@@ -116,21 +116,21 @@ public partial class VRHandEntity : AnimEntity
 	protected void ShowDebug()
 	{
 		DebugOverlay.Box( HoldTransform.Position, HoldTransform.Rotation, -1, 1, IsServer ? Color.Red : Color.Green, 0.0f, true );
-		DebugOverlay.Text( HoldTransform.Position, $"{HandInput.Joystick.Value}", IsServer ? Color.White : Color.Yellow, 0.0f );
-		DebugOverlay.Text( HoldTransform.Position + HoldTransform.Rotation.Down * .5f, $"{HandInput.Grip.Value}", IsServer ? Color.White : Color.Yellow, 0.0f );
+		DebugOverlay.Text( $"{HandInput.Joystick.Value}", HoldTransform.Position, IsServer ? Color.White : Color.Yellow, 0.0f );
+		DebugOverlay.Text( $"{HandInput.Grip.Value}", HoldTransform.Position + HoldTransform.Rotation.Down * .5f, IsServer ? Color.White : Color.Yellow, 0.0f );
 	}
 
 	public override void Simulate( Client cl )
 	{
 		base.Simulate( cl );
 
-		//ShowDebug();
+		ShowDebug();
 
 		// Parse finger data
 		FingerData.Parse( HandInput );
 
 		// Bullshit rotation here
-		Transform = HandInput.Transform.WithRotation( ( HandInput.Transform.Rotation.RotateAroundAxis( Vector3.Right, -45f ) ) );
+		Transform = HandInput.Transform.WithRotation(  HandInput.Transform.Rotation.RotateAroundAxis( Vector3.Right, -45f ) );
 		IsGripping = HandInput.Grip > 0f;
 
 		if ( Host.IsServer )

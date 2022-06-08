@@ -1,8 +1,8 @@
 {
   "Title": "VRStrike",
   "Type": "game",
-  "Org": "local",
-  "Ident": "sbox-vrstrike",
+  "Org": "devultj",
+  "Ident": "vrstrike",
   "Schema": 1,
   "HasAssets": true,
   "AssetsPath": "",

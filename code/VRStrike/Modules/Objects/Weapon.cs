@@ -6,7 +6,7 @@ namespace VRStrike;
 
 public partial class Weapon : HoldableEntity, IMiniMapEntity
 {
-	public override string Model => "models/weapons/w_mac11.vmdl";
+	public override string ModelPath => "models/weapons/w_mac11.vmdl";
 
 	public override void Spawn()
 	{

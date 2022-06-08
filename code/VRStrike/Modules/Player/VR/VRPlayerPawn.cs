@@ -7,8 +7,8 @@ namespace VRStrike;
 public partial class VRPlayerPawn : PlayerPawn
 {
 	// Hands
-	[Net] public VRHandEntity LeftHandEntity { get; set; }
-	[Net] public VRHandEntity RightHandEntity { get; set; }
+	[Net, Predicted] public VRHandEntity LeftHandEntity { get; set; }
+	[Net, Predicted] public VRHandEntity RightHandEntity { get; set; }
 
 	WorldInput WorldInput = new();
 
@@ -98,7 +98,7 @@ public partial class VRPlayerPawn : PlayerPawn
 	{
 		foreach ( var tracked in Input.VR.TrackedObjects )
 		{
-			DebugOverlay.Text( tracked.Transform.Position, $"Tracking: {tracked.Type}" );
+			DebugOverlay.Text( $"Tracking: {tracked.Type}", tracked.Transform.Position );
 		}
 	}
 

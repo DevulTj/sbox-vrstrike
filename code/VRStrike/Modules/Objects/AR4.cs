@@ -7,5 +7,5 @@ namespace VRStrike;
 [Library( "vrs_ar4" )]
 public partial class AR4 : Weapon
 {
-	public override string Model => "models/weapons/w_ar4.vmdl";
+	public override string ModelPath => "models/weapons/w_ar4.vmdl";
 }
