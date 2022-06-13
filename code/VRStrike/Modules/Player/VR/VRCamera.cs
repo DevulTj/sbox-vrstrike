@@ -10,8 +10,6 @@ public partial class VRCamera : PlayerCamera
 {
 	public override void Build( ref CameraSetup setup )
 	{
-		base.Build( ref setup );
-
 		setup.ZNear = 1f;
 	}
 

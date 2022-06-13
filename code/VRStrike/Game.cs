@@ -1,7 +1,4 @@
-// © DevulTj 2021 - http://www.tferguson.co.uk/
-// All Rights Reserved
-
-using Sandbox;
+global using Sandbox;
 
 namespace VRStrike;
 
